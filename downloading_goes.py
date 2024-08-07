@@ -4,8 +4,9 @@ from enum import StrEnum
 from pathlib import Path
 
 import requests
+import xarray as xr
 
-from exceptions import DownloadException
+from exceptions import DownloadException, LoadingException
 
 BASE_GOES_URL = "https://www.ncei.noaa.gov/data/gridsat-goes/access/goes"
 DEFAULT_SAVE_DIR = Path(__file__).parent.joinpath("data/goes")
@@ -67,3 +68,14 @@ class GOESRequestInfo:
                 for chunk in r.iter_content(chunk_size=8192):
                     f.write(chunk)
         print(f"GOES download complete for {self}")
+
+    def load(self, save_dir: Path = DEFAULT_SAVE_DIR) -> xr.Dataset:
+        savefile = save_dir.joinpath(self.filename())
+        if not savefile.exists():
+            raise LoadingException(f"Savefile does not exist with path {savefile}")
+        return xr.open_dataset(savefile)
+
+
+if __name__ == "__main__":
+    request_info = GOESRequestInfo(2017, 8, 26, 0, GOESProduct.GOES15)
+    #request_info.download()
