@@ -6,10 +6,8 @@ from pathlib import Path
 import requests
 import xarray as xr
 
+from definitions import BASE_GOES_URL, DEFAULT_SAVE_DIR
 from exceptions import DownloadException, LoadingException
-
-BASE_GOES_URL = "https://www.ncei.noaa.gov/data/gridsat-goes/access/goes"
-DEFAULT_SAVE_DIR = Path(__file__).parent.joinpath("data/goes")
 
 
 class GOESProduct(StrEnum):
@@ -74,8 +72,3 @@ class GOESRequestInfo:
         if not savefile.exists():
             raise LoadingException(f"Savefile does not exist with path {savefile}")
         return xr.open_dataset(savefile)
-
-
-if __name__ == "__main__":
-    request_info = GOESRequestInfo(2017, 8, 26, 0, GOESProduct.GOES15)
-    #request_info.download()
