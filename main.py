@@ -5,7 +5,7 @@ from handling_data.subsetting_bbox import SubsetBBox
 
 from tda.local_similarity import run_local_comparison
 
-from visualization.plotting import add_square
+from visualization.plotting import add_square, add_circ
 from visualization.xr_image import base_plot_da, base_plot_vals, get_extent
 
 import matplotlib.pyplot as plt
@@ -21,22 +21,22 @@ if __name__ == "__main__":
     ds = request_info.load()
     da = subset_bbox.subset_xr(ds["ch4"].isel(time=0))
 
-    dist_0, dist_1 = run_local_comparison(da, lat_c, lon_c, r, skip=10)
+    dist_0, dist_1 = run_local_comparison(da, lat_c, lon_c, r, skip=10, circle_subset=True)
     #dist_1 = np.clip(dist_1, 0, 25)
     
     fig, ax = plt.subplots()
     base_plot_da(ax, da)
-    add_square(ax, lon_c, lat_c, r, c="red", ls="--")
+    add_circ(ax, lon_c, lat_c, r, c="red", ls="--")
     
     extent = get_extent(da)
     fig, ax = plt.subplots()
     base_plot_vals(ax, dist_0, extent)
-    add_square(ax, lon_c, lat_c, r, c="red", ls="--")
+    add_circ(ax, lon_c, lat_c, r, c="red", ls="--")
     ax.set_title("W2B0")
     
     fig, ax = plt.subplots()
     base_plot_vals(ax, dist_1, extent)
-    add_square(ax, lon_c, lat_c, r, c="red", ls="--")
+    add_circ(ax, lon_c, lat_c, r, c="red", ls="--")
     ax.set_title("W2B1")
 
     plt.show()
