@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "hurricane-tda"
+version = "0.1.0"
+description = "Repository for topological analysis of hurricane images"
+authors = ["Philip Bretz"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^2.1.0"
+matplotlib = "^3.9.2"
+xarray = "^2024.7.0"
+requests = "^2.32.3"
+gudhi = "^3.10.1"
+scipy = "^1.14.1"
+pot = "^0.9.4"
+netcdf4 = "^1.7.1.post2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
